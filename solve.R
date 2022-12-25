@@ -75,3 +75,8 @@ orders_plus_orderdate <- orders_plus %>% mutate(order_day = day(ordered), order_
 frugal_cousin_orders <- orders_plus_orderdate %>% filter(customerid == 8342)
 common_orders <- frugal_cousin_orders %>% inner_join(orders_plus_orderdate, by=c("desc_without_colour", "order_day", "order_month", "order_year")) %>% filter(customerid.y != 8342) %>% filter(desc.x != desc.y)
 true_love <- common_orders %>% arrange(abs(ordered.x - ordered.y)) %>% select(ordered.x, ordered.y, name.y, phone.y) %>% slice(1)
+
+                                        # Puzzle 8
+
+collector <- orders_plus  %>% filter(str_detect(desc, "^Noah")) %>% group_by(customerid) %>% filter(n() > 200) %>% select(name, phone) %>% distinct
+collector_phone <- collector %>% pull(phone)
